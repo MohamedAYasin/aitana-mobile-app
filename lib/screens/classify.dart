@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ClassifyScreen extends StatefulWidget {
@@ -27,7 +28,6 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
 
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
     if (pickedFile != null) {
       if (kIsWeb) {
         final bytes = await pickedFile.readAsBytes();
@@ -60,19 +60,10 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
 
     if (kIsWeb) {
       request.files.add(
-        http.MultipartFile.fromBytes(
-          'image',
-          _webImageBytes!,
-          filename: 'upload.jpg',
-        ),
+        http.MultipartFile.fromBytes('image', _webImageBytes!, filename: 'upload.jpg'),
       );
     } else {
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'image',
-          _image!.path,
-        ),
-      );
+      request.files.add(await http.MultipartFile.fromPath('image', _image!.path));
     }
 
     try {
@@ -94,6 +85,15 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
               .toList()
             ..shuffle();
         });
+
+        final prefs = await SharedPreferences.getInstance();
+        List<String> history = prefs.getStringList('history') ?? [];
+        final historyEntry = {
+          'label': data['label'],
+          'date': DateTime.now().toIso8601String(),
+        };
+        history.add(jsonEncode(historyEntry));
+        await prefs.setStringList('history', history);
       } else {
         throw Exception('Failed to classify');
       }
@@ -114,6 +114,45 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
     }
   }
 
+  Widget _mainCard({
+    required String title,
+    required IconData icon,
+    required VoidCallback onTap,
+    Color color = Colors.blue,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 400),
+        padding: const EdgeInsets.all(20),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [color.withOpacity(0.6), color],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(color: Colors.black26, blurRadius: 8, offset: const Offset(0, 4)),
+          ],
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.white, size: 32),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildImagePreview() {
     if (_webImageBytes != null) {
       return Image.memory(_webImageBytes!, height: 200);
@@ -126,68 +165,57 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Classify E-Waste')),
+      appBar: AppBar(
+        title: const Text('Classify E-Waste'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      extendBodyBehindAppBar: true,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/elmo-fire-elmo.gif'),
+            image: AssetImage('assets/images/welcome_background.png'),
             fit: BoxFit.cover,
           ),
         ),
         child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  child: _buildImagePreview(),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: _pickImage,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _mainCard(
+                    title: '📷 Choose Image',
+                    icon: Icons.image_search_outlined,
+                    onTap: _pickImage,
+                    color: Colors.blue,
                   ),
-                  child: const Text("📷 Choose Image"),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _loading ? null : _classifyImage,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  const SizedBox(height: 20),
+                  _mainCard(
+                    title: _loading ? '⏳ Classifying...' : '♻️ Classify & Suggest',
+                    icon: Icons.recycling,
+                    onTap: _loading ? () {} : _classifyImage,
+                    color: Colors.green,
                   ),
-                  child: _loading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text("♻️ Classify & Suggest"),
-                ),
-                const SizedBox(height: 20),
-                if (_label != null)
-                  AnimatedOpacity(
-                    opacity: _label != null ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 500),
-                    child: Card(
-                      color: Colors.grey[100],
+                  const SizedBox(height: 30),
+                  _buildImagePreview(),
+                  const SizedBox(height: 10),
+                  if (_label != null)
+                    Card(
+                      color: isDark ? Colors.grey[800] : Colors.grey[100],
                       margin: const EdgeInsets.all(16),
                       elevation: 4,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("✅ Item: $_label",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                            Text("✅ Item: $_label", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                             const SizedBox(height: 8),
                             Text("📊 Confidence: $_confidence"),
                             const SizedBox(height: 8),
@@ -198,31 +226,24 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "💡 Reuse Ideas:",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
+                                  const Text("💡 Reuse Ideas:", style: TextStyle(fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 6),
                                   ..._reuseIdeas.take(2).map(
                                     (idea) => GestureDetector(
                                       onTap: () => launchURL(idea['url']!),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4),
+                                        padding: const EdgeInsets.symmetric(vertical: 4),
                                         child: Row(
                                           children: [
-                                            const Icon(Icons.link,
-                                                size: 16, color: Colors.blue),
+                                            const Icon(Icons.link, size: 16, color: Colors.blue),
                                             const SizedBox(width: 4),
                                             Flexible(
                                               child: Text(
                                                 idea['title']!,
                                                 style: const TextStyle(
-                                                    color: Colors.blue,
-                                                    decoration:
-                                                        TextDecoration.underline),
+                                                  color: Colors.blue,
+                                                  decoration: TextDecoration.underline,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -236,8 +257,8 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                         ),
                       ),
                     ),
-                  )
-              ],
+                ],
+              ),
             ),
           ),
         ),

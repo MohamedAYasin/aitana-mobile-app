@@ -1,6 +1,4 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/dashboard';
@@ -10,140 +8,96 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> with TickerProviderStateMixin {
-  String inspiration = "";
-  late AnimationController _controller;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _fadeAnimation;
-
-  final List<String> inspirations = [
-    "🌱 One person’s trash is another person’s treasure!",
-    "♻️ Reduce, Reuse, Recycle — and Reinvent.",
-    "💡 E-waste today, innovation tomorrow.",
-    "🎨 Creativity turns waste into wonders.",
-    "🌏 Sustainability starts with you.",
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 700),
-    );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.2),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
-    _controller.forward();
-  }
-
-  Future<void> _loadData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final random = Random();
-    setState(() {
-      inspiration = inspirations[random.nextInt(inspirations.length)];
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+class _DashboardScreenState extends State<DashboardScreen> {
+  void _handleMenuSelection(String choice) {
+    switch (choice) {
+      case 'Settings':
+        Navigator.pushNamed(context, '/settings');
+        break;
+      case 'About':
+        Navigator.pushNamed(context, '/about');
+        break;
+      case 'Logout':
+        Navigator.pushNamed(context, '/login');
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text("Aitana Home"),
+        backgroundColor: Colors.blueGrey,
+        elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.blue[700],
+        leading: PopupMenuButton<String>(
+          icon: const Icon(Icons.menu),
+          color: isDark ? Colors.blue : Colors.blue,
+          onSelected: _handleMenuSelection,
+          itemBuilder: (context) => const [
+            PopupMenuItem(value: 'Settings', child: Text('⚙️ Settings')),
+            PopupMenuItem(value: 'About', child: Text('ℹ️ About')),
+            PopupMenuItem(value: 'Logout', child: Text('🚪 Logout')),
+          ],
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.account_circle),
             onPressed: () => Navigator.pushNamed(context, '/profile'),
-          )
+          ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: SlideTransition(
-            position: _slideAnimation,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/welcome_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 10),
-                Image.asset(
-                  'assets/images/aitana.png',
-                  height: 100,
+                _mainCard(
+                  title: 'Classify your e-waste items',
+                  icon: Icons.camera_alt,
+                  onTap: () => Navigator.pushNamed(context, '/classify'),
+                  isDark: isDark,
                 ),
                 const SizedBox(height: 20),
                 _mainCard(
-                  title: 'Classify your e-waste items',
-                  icon: Icons.devices,
-                  onTap: () => Navigator.pushNamed(context, '/classify'),
-                ),
-                const SizedBox(height: 16),
-                _mainCard(
-                  title: 'Chat and learn with aitanabot',
-                  icon: Icons.chat,
+                  title: 'Chat and learn with AitanaBot',
+                  icon: Icons.chat_bubble_outline,
                   onTap: () => Navigator.pushNamed(context, '/aitanabot'),
+                  isDark: isDark,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 _mainCard(
                   title: 'Learn about e-waste',
-                  icon: Icons.info,
+                  icon: Icons.info_outline,
                   onTap: () => Navigator.pushNamed(context, '/education'),
+                  isDark: isDark,
                 ),
-                const SizedBox(height: 24),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '📌 Inspiration of the Day',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    inspiration,
-                    style: const TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
-                  ),
-                ),
-                const SizedBox(height: 24),
               ],
             ),
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: 0,
+        backgroundColor: isDark ? Colors.grey[900] : Colors.white,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: 0,
         onTap: (index) {
-          final routes = [
-            null,
-            '/classify',
-            '/aitanabot',
-            '/education',
-            '/settings',
-          ];
+          final routes = [null, '/classify', '/aitanabot', '/education', '/settings'];
           if (index != 0) Navigator.pushNamed(context, routes[index]!);
         },
         items: const [
@@ -157,37 +111,53 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
     );
   }
 
-  Widget _mainCard({required String title, required IconData icon, required VoidCallback onTap}) {
+  Widget _mainCard({
+    required String title,
+    required IconData icon,
+    required VoidCallback onTap,
+    required bool isDark,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-        width: double.infinity,
+        duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.all(20),
+        width: double.infinity,
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF90CAF9), Color(0xFF42A5F5)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: isDark
+              ? const LinearGradient(
+                  colors: [Color(0xFF1E3A8A), Color(0xFF2563EB)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : const LinearGradient(
+                  colors: [Color(0xFF90CAF9), Color(0xFF42A5F5)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
           borderRadius: BorderRadius.circular(16),
-          boxShadow: const [
-            BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 4)),
+          boxShadow: [
+            BoxShadow(
+              color: isDark ? Colors.black54 : Colors.grey.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
           ],
         ),
         child: Row(
           children: [
             Icon(icon, color: Colors.white, size: 32),
             const SizedBox(width: 16),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

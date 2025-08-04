@@ -6,8 +6,8 @@ class TermsAndConditionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Terms & Conditions")),
-      body: const Center(child: Text("Terms & conditions text here")),
+      appBar: AppBar(title: const Text("Terms and Conditions")),
+      body: const Center(child: Text("loading here")),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'signup.dart';
-import 'dashboard.dart'; 
+import 'dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -53,26 +54,28 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    // Mock login delay
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final auth = FirebaseAuth.instance;
+      await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    setState(() => _loading = false);
+      _showMessage("Logged in as $email");
 
-    _showMessage("Logged in as $email");
-
-    Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName);
-  }
-
-  Future<void> _handleGoogleLogin() async {
-    setState(() => _loading = true);
-
-    // Mock login delay
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() => _loading = false);
-
-    _showMessage("Logged in with Google");
-    Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName);
+    } on FirebaseAuthException catch (e) {
+      setState(() => _loading = false);
+      String message = 'Login failed';
+      if (e.code == 'user-not-found') {
+        message = 'No user found with this email';
+      } else if (e.code == 'wrong-password') {
+        message = 'Incorrect password';
+      } else if (e.code == 'invalid-email') {
+        message = 'Invalid email address';
+      }
+      _showMessage(message);
+    }
   }
 
   @override
@@ -120,12 +123,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 32),
                     const Text(
                       'Welcome back',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 24),
-
-                    // Email
                     TextField(
                       controller: _emailCtrl,
                       keyboardType: TextInputType.emailAddress,
@@ -142,8 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    // Password
                     TextField(
                       controller: _passwordCtrl,
                       obscureText: _obscure,
@@ -157,16 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderSide: BorderSide.none,
                         ),
                         suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscure ? Icons.visibility_off : Icons.visibility,
-                          ),
-                          onPressed: () =>
-                              setState(() => _obscure = !_obscure),
+                          icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
+                          onPressed: () => setState(() => _obscure = !_obscure),
                         ),
                         errorText: _passwordError,
                       ),
                     ),
-
                     const SizedBox(height: 16),
                     Align(
                       alignment: Alignment.centerRight,
@@ -174,13 +168,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           _showMessage("Forgot password functionality not implemented.");
                         },
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(color: linkText),
-                        ),
+                        child: Text('Forgot Password?', style: TextStyle(color: linkText)),
                       ),
                     ),
-
                     const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
@@ -196,8 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? const SizedBox(
                                 width: 24,
                                 height: 24,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(strokeWidth: 2),
                               )
                             : const Text(
                                 'Login',
@@ -208,47 +197,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                       ),
                     ),
-
-                    const SizedBox(height: 16),
-                    const Center(child: Text('Or')),
-                    const SizedBox(height: 16),
-
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton.icon(
-                        onPressed: _loading ? null : _handleGoogleLogin,
-                        icon: Image.asset(
-                          'assets/images/google_icon.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                        label: const Text(
-                          'Continue with Google',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: navyText,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade200,
-                          shape: const StadiumBorder(),
-                          elevation: 0,
-                        ),
-                      ),
-                    ),
-
                     const SizedBox(height: 24),
-
                     Center(
                       child: GestureDetector(
-                        onTap: () => Navigator.of(
-                          context,
-                        ).pushReplacementNamed(SignUpScreen.routeName),
-                        child: Text(
-                          "Don't have an account? Sign up",
-                          style: TextStyle(color: linkText),
-                        ),
+                        onTap: () => Navigator.of(context).pushReplacementNamed(SignUpScreen.routeName),
+                        child: Text("Don't have an account? Sign up", style: TextStyle(color: linkText)),
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -258,9 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
               if (_loading)
                 Container(
                   color: Colors.black.withOpacity(0.1),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: const Center(child: CircularProgressIndicator()),
                 ),
             ],
           ),

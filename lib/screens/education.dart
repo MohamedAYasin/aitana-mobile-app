@@ -9,7 +9,11 @@ class EducationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('📚 Education')),
+      appBar: AppBar(
+        title: const Text('📚 Education'),
+        backgroundColor: Colors.blueAccent,
+        centerTitle: true,
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -23,7 +27,7 @@ class EducationScreen extends StatelessWidget {
             children: [
               _buildButton(context, '📹 Videos', const EducationVideosScreen()),
               const SizedBox(height: 20),
-              _buildButton(context, '📰 Blogs', const EducationBlogsScreen()),
+              _buildButton(context, '📰 Documents', const EducationBlogsScreen()),
               const SizedBox(height: 20),
               _buildButton(context, '📝 Quiz', const EducationQuizScreen()),
             ],
@@ -39,9 +43,17 @@ class EducationScreen extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (_) => page));
       },
       style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue.shade700,
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        elevation: 8,
       ),
-      child: Text(text, style: const TextStyle(fontSize: 20)),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 20, color: Colors.white),
+      ),
     );
   }
 }

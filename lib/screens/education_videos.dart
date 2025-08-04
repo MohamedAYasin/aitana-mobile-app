@@ -6,17 +6,18 @@ class EducationVideosScreen extends StatelessWidget {
 
   final List<Map<String, String>> videos = const [
     {"title": "What is E-Waste?", "url": "https://www.youtube.com/watch?v=HQZjouMTH08&ab_channel=OregonPublicBroadcasting"},
-    {"title": "The Journey of E-Waste", "url": "https://www.youtube.com/watch?v=VnI7GNKbmAA"},
-    {"title": "How to Recycle Electronics", "url": "https://www.youtube.com/watch?v=sxj1HhM9ZBc"},
-    {"title": "Why is E-Waste Dangerous?", "url": "https://www.youtube.com/watch?v=0ncbfB7xGFM"},
-    {"title": "Circular Economy Explained", "url": "https://www.youtube.com/watch?v=zCRKvDyyHmI"},
-    {"title": "Sustainability and Electronics", "url": "https://www.youtube.com/watch?v=Bc9v3J8vP3Q"},
-    {"title": "E-Waste in Africa", "url": "https://www.youtube.com/watch?v=8O1VnOwYUrk"},
-    {"title": "The Problem of E-Waste", "url": "https://www.youtube.com/watch?v=J1iTQf4mJ-o"},
-    {"title": "How to Reduce E-Waste", "url": "https://www.youtube.com/watch?v=-5h8drkHc8o"},
-    {"title": "Recycling Electronics at Home", "url": "https://www.youtube.com/watch?v=lMfPQmzks8o"},
-    {"title": "Innovation in E-Waste Management", "url": "https://www.youtube.com/watch?v=f9AVtSTOS3k"},
-    {"title": "Global E-Waste Crisis", "url": "https://www.youtube.com/watch?v=tYAKtNx5g7A"}
+    {"title": "What is E-WASTE Pollution? ", "url": "https://www.youtube.com/watch?v=MQLadfsvfLo"},
+    {"title": "How to turn e-waste into a circular economy", "url": "https://www.youtube.com/watch?v=PDf95jyZ7PU"},
+    {"title": "How to Get Rid of All Your E-Waste", "url": "https://www.youtube.com/watch?v=IIM9-kBRh1A"},
+    {"title": "How is e-waste harming our world", "url": "https://www.youtube.com/watch?v=-uyIzKIw0xY"},
+    {"title": "What is the circular economy?", "url": "https://www.youtube.com/watch?v=__0Spwj8DkM"},
+    {"title": "E-Waste Explained By A Sustainability Expert", "url": "https://www.youtube.com/watch?v=_Y2ePj3wr8M"},
+    {"title": "E-Waste Crisis in Africa: A Growing Threat", "url": "https://www.youtube.com/watch?v=0HBHKC2tkZ8"},
+    {"title": "The Problem With E-Waste", "url": "https://www.youtube.com/watch?v=FmJFVmtWf-I"},
+    {"title": "Reduce, Reuse, Recycle", "url": "https://www.youtube.com/watch?v=uCDOm4AcPQk"},
+    {"title": "The tragic costs of e-waste", "url": "https://www.youtube.com/watch?v=4GtWGHvX-rk"},
+    {"title": "e-Waste | How Your Old Gadgets Impact the Environment", "url": "https://www.youtube.com/watch?v=HV2Ir1e513o"},
+    {"title": "Electronic Waste Crisis Solution", "url": "https://www.youtube.com/watch?v=e90eD-qXvFs"}
   ];
 
   @override

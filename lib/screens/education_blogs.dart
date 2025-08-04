@@ -6,23 +6,23 @@ class EducationBlogsScreen extends StatelessWidget {
 
   final List<Map<String, String>> blogs = const [
     {"title": "Electronic Waste E-Waste", "url": "https://www.who.int/news-room/fact-sheets/detail/electronic-waste-(e-waste)/"},
-    {"title": "Sustainable Electronics", "url": "https://www.nrdc.org/stories/electronics-and-sustainability"},
-    {"title": "The Global Impact of E-Waste", "url": "https://www.weforum.org/agenda/2020/01/the-global-e-waste-challenge/"},
-    {"title": "How to Recycle Electronics", "url": "https://www.epa.gov/recycle/electronics-donation-and-recycling"},
-    {"title": "What Happens to Your E-Waste?", "url": "https://time.com/5608587/electronic-waste-recycling/"},
-    {"title": "Circular Economy for E-Waste", "url": "https://ellenmacarthurfoundation.org/circular-economy-in-detail"},
-    {"title": "E-Waste in Developing Countries", "url": "https://www.sciencedirect.com/science/article/pii/S0959652620348362"},
-    {"title": "Tips to Reduce E-Waste", "url": "https://www.greenpeace.org/usa/tips-to-reduce-e-waste/"},
-    {"title": "The Hidden Cost of E-Waste", "url": "https://www.bbc.com/future/article/20200305-why-your-old-phone-is-more-polluting-than-you-think"},
-    {"title": "How to Upcycle Old Electronics", "url": "https://www.makeuseof.com/tag/upcycle-old-electronics-projects/"},
-    {"title": "Innovation in Recycling", "url": "https://www.nationalgeographic.com/environment/article/electronic-waste-is-recycling-worth-it"},
-    {"title": "The Future of E-Waste Management", "url": "https://www.unep.org/resources/report/future-e-waste"}
+    {"title": "Sustainable Future of E-waste", "url": "https://www.unep.org/ietc/news/story/sustainable-future-e-waste"},
+    {"title": "The Global Impact of E-Waste", "url": "https://www.ilo.org/publications/global-impact-e-waste-addressing-challenge"},
+    {"title": "The Growing Environmental Risks of E-Waste", "url": "https://www.genevaenvironmentnetwork.org/resources/updates/the-growing-environmental-risks-of-e-waste/"},
+    {"title": "Impact of e-waste on human health", "url": "https://www.who.int/news/item/15-06-2021-soaring-e-waste-affects-the-health-of-millions-of-children-who-warns"},
+    {"title": "Circular economy in Africa: Electronics and e-waste", "url": "https://content.ellenmacarthurfoundation.org/m/7a9fb09b78cdf3f5/original/Circular-economy-in-Africa-Electronics-and-e-waste.pdf?_gl=1*mbcjxv*_ga*ODU5MDc3MDkwLjE3NTM5MTIxMzc.*_ga_V32N675KJX*czE3NTM5MTIxMzQkbzEkZzAkdDE3NTM5MTIxMzckajYwJGwwJGgw*_gcl_au*MTk1NjMwOTE2OS4xNzUzOTEyMTM4"},
+    {"title": "How circular economy models can address global e-waste", "url": "https://www.ey.com/en_us/insights/climate-change-sustainability-services/how-circular-economy-models-can-address-global-e-waste"},
+    {"title": "Ways to Reduce e-Waste", "url": "https://www.wcrecycler.com/blog/top-10-ways-to-reduce-e-waste"},
+    {"title": "How to Sustainably Dispose of Your Technological Waste", "url": "https://sustainability.yale.edu/blog/how-sustainably-dispose-your-technological-waste"},
+    {"title": "The Responsible Guide to Disposing of E-Waste: A Greener Future Starts at Home", "url": "https://landbellcanada.com/disposing-of-e-waste/"},
+    {"title": "Sustainable e-waste management: A growing challenge for Africa", "url": "https://vellum.co.ke/sustainable-e-waste-management-a-growing-challenge-for-africa/"},
+    {"title": "The Future of E-waste Management: Circular Economy Principles for Sustainable Electronics", "url": "https://ecircular.com/waste-management-circular-economy-principles/"}
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("📰 Blogs")),
+      appBar: AppBar(title: const Text("📰 Documents")),
       body: ListView.builder(
         itemCount: blogs.length,
         itemBuilder: (context, index) {

@@ -3,26 +3,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:firebase_core/firebase_core.dart';
 
 import 'theme_provider.dart';
-
 import 'screens/welcome.dart';
 import 'screens/login.dart';
 import 'screens/signup.dart';
 import 'screens/termsandconditions.dart';
 import 'screens/dashboard.dart';
+import 'screens/about.dart';
 import 'screens/profile.dart';
 import 'screens/classify.dart';
 import 'screens/education.dart';
 import 'screens/settings.dart';
 import 'screens/aitanabot.dart';
 
-final RouteObserver<ModalRoute<void>> routeObserver =
-    RouteObserver<ModalRoute<void>>();
+final RouteObserver<ModalRoute<void>> routeObserver = RouteObserver<ModalRoute<void>>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // ✅ Initialize Firebase
+  await Firebase.initializeApp();
+
+  // ✅ Set timezone
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Africa/Nairobi'));
   debugPrint('TimeZone set to: ${tz.local}');
@@ -68,6 +72,7 @@ class AitanaApp extends StatelessWidget {
         '/signup': (context) => const SignUpScreen(),
         '/terms': (context) => const TermsAndConditionsScreen(),
         '/dashboard': (context) => DashboardScreen(),
+        '/about': (context) => const AboutSection(),
         '/profile': (context) => ProfileScreen(),
         '/classify': (context) => const ClassifyScreen(),
         '/education': (context) => const EducationScreen(),

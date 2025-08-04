@@ -256,7 +256,7 @@ class _EducationQuizScreenState extends State<EducationQuizScreen> {
                                       child: ElevatedButton(
                                         onPressed: () => _checkAnswer(opt),
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.green.shade600,
+                                          backgroundColor: Colors.blue,
                                           foregroundColor: Colors.white,
                                           minimumSize:
                                               const Size(double.infinity, 50),
