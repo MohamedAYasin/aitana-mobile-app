@@ -10,12 +10,9 @@ It helps users **classify e-waste items** using AI and provides **creative reuse
 ## ✨ Features
 
 * 📷 **AI Image Classification** – Detects 8 categories of e-waste: Camera, Keyboard, Laptop, Microwave, Mobile Phone, Mouse, Smartwatch, and TV.
-* 💡 **Reuse Suggestions** – Offers simple, Kenya-relevant reuse ideas for each item.
-* 🤖 **AITANAbot** – Chatbot powered by Google Gemini API to answer sustainability-related questions.
-* 🧾 **History Tracking** – Saves classification history for quick reference.
-* 🌗 **Light/Dark Theme** – User-friendly interface with theme toggle.
-* 📍 **Planner & Reminders** – Get notified to reuse or dispose of items properly.
-* 👤 **Profile Management** – Save and update your personal details.
+* 💡 **Reuse Suggestions** – Offers simple and practical reuse ideas for each item.
+* 🤖 **AITANAbot** – Chatbot powered by Google Gemini API to answer e-waste, circular economy and sustainability-related questions.
+* 🎓 Educational Page – Access videos, documents, and quizzes to learn more about e-waste management, the circular economy, and sustainable practices.
 
 ---
 
@@ -69,9 +66,9 @@ flutter run
 
 ---
 
-## 📜 License
+## 📸 Screenshots of the app
 
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
 
 ---
 
@@ -83,3 +80,4 @@ We welcome contributions! Please fork the repo and create a pull request with yo
 
 If you give me your **real APK link** and **video link**, I can update this README so it’s ready to publish in your GitHub repo without placeholders.
 Do you want me to do that?
+
