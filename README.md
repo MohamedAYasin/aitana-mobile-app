@@ -72,7 +72,7 @@ flutter run
 
 <img width="320" height="681" alt="Image" src="https://github.com/user-attachments/assets/5c8cc2fb-1117-457e-9736-5203d594f483" /><img width="321" height="675" alt="Image" src="https://github.com/user-attachments/assets/586be072-eec2-465a-8f59-9760843e16ff" />
 
-<img width="311" height="661" alt="Image" src="https://github.com/user-attachments/assets/d08d84f8-90fa-41c2-8d5f-1c2696ff250d" />
+<img width="311" height="661" alt="Image" src="https://github.com/user-attachments/assets/d08d84f8-90fa-41c2-8d5f-1c2696ff250d" /><img width="321" height="676" alt="Image" src="https://github.com/user-attachments/assets/3dad8641-c04e-4f93-8bf3-da4f41c354fe" />
 
 
 ---
