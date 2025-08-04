@@ -68,6 +68,11 @@ flutter run
 
 ## 📸 Screenshots of the app
 
+<img width="321" height="677" alt="Image" src="https://github.com/user-attachments/assets/b042f7f2-bda0-4959-93ac-18fdd35c9776" /><img width="324" height="684" alt="Image" src="https://github.com/user-attachments/assets/31970513-c369-4792-9397-d3daefdb0235" />
+
+<img width="320" height="681" alt="Image" src="https://github.com/user-attachments/assets/5c8cc2fb-1117-457e-9736-5203d594f483" /><img width="321" height="675" alt="Image" src="https://github.com/user-attachments/assets/586be072-eec2-465a-8f59-9760843e16ff" />
+
+<img width="311" height="661" alt="Image" src="https://github.com/user-attachments/assets/d08d84f8-90fa-41c2-8d5f-1c2696ff250d" />
 
 
 ---
