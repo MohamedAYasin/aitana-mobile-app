@@ -1,6 +1,6 @@
-# 📱 Aitana – E-Waste Classification & Reuse Mobile App
+# 📱 Aitana – E-Waste Classification & Circular Economy Education Mobile Application
 
-
+<img width="665" height="375" alt="Image" src="https://github.com/user-attachments/assets/1fbdc511-8cb4-4efb-8a55-438334f7ae7b" />
 
 Aitana is a **Flutter-based mobile application** that promotes the **circular economy** and **sustainable electronic waste management**.
 It helps users **classify e-waste items** using AI and provides **creative reuse ideas** to reduce environmental impact.
@@ -23,7 +23,7 @@ It helps users **classify e-waste items** using AI and provides **creative reuse
 
 ### 1. **Download the APK**
 
-[📥 Download Aitana for Android](https://example.com/aitana.apk) *(replace with your real APK link)*
+[📥 Download Aitana for Android](https://drive.google.com/drive/folders/1n7lLFAYfB9bP2L2jpvrIdnEGourDNXTe?usp=sharing)
 
 ### 2. **Install on your Android device**
 
@@ -39,7 +39,7 @@ It helps users **classify e-waste items** using AI and provides **creative reuse
 
 ## ▶️ Demo Video
 
-🎥 [Watch the App Walkthrough](https://example.com/aitana-demo-video) *(replace with your actual video link)*
+🎥 [Watch the App Walkthrough](https://example.com/aitana-demo-video)
 
 ---
 
