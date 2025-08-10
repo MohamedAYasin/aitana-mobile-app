@@ -36,7 +36,7 @@ It helps users **classify e-waste items** using AI and provides **creative reuse
 
 ## ▶️ Demo Video
 
-🎥 [Watch the App Walkthrough](https://example.com/aitana-demo-video)
+🎥 [Watch the App Walkthrough](https://youtu.be/sCY9nO337xw)
 
 ---
 
